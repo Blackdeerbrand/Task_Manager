@@ -1,43 +1,65 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Addbar from '../components/AddBar';
 import '../styles/styles.css'
-import ListofTasks from '../components/ListofTasks';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import { Button } from '@material-ui/core';
+import All from './All'
+import Completed from './Completed'
+import Active from './Active'
 
-import Completed from '../views/Completed';
-import Active from '../views/Active';
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+      display: 'inline-flex',
+      alignItems: 'center'
+    },
+  },
+}));
 
-function All(){
-    return(
-        <Addbar/>
-    )
-}
+
 export default function TaskTabs() {
-  const [value, setValue] = useState(0);
-  let [tasklist, settasklist] = useState(<All/>) 
+    const [value, setValue] = useState(0);
+    let [checkedParent, setcheckedParent] = useState(false)
+    let [task, settask] = useState('')
+    let [tasklist, settasklist] = useState([])
+    let [visual, setvisual] = useState(<All task={task} generallist={settasklist} checked={setcheckedParent}></All>)
+    const classes = useStyles();
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const setListofTasks = (tabnumber) => {
-    switch (tabnumber) {
-        case 1:
-            settasklist(<All/>)
-            break;
-        case 2:
-            settasklist(<Active/>)
-            break;
-        case 3:
-            settasklist(<Completed/>)
-            break;
-        default:
-            settasklist(<All/>)
-            break;
+    const AddToList = () => {
+        let taskElement = document.getElementById('task').value
+        settask(taskElement)
     }
-  }
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+        console.log(value)
+    };
+
+    useEffect(()=>{
+        Visual(value)   
+    },[task])
+
+    let Visual = (tabnumber) => {
+        switch (tabnumber) {
+            case 0:
+                setvisual(<All task={task} /* generallist={settasklist} */ checked={setcheckedParent} />)
+                break;
+            case 1:
+                setvisual(<Completed task={task} /* list={tasklist} */ result={checkedParent} />)
+                break;
+            case 2:
+                setvisual(<Active task={task} /* list={tasklist} */ result={checkedParent} />)
+                break;
+            default:
+                setvisual(<All task={task} generallist={settasklist} checked={setcheckedParent} />)
+                break;
+        }
+    }
 
   return (
       <>
@@ -51,13 +73,19 @@ export default function TaskTabs() {
                     aria-label="disabled tabs example"
                     centered
                 >
-                    <Tab label="All" onClick={()=>{setListofTasks(1)}} />
-                    <Tab label="Active" onClick={()=>{setListofTasks(2)}}  />
-                    <Tab label="Completed" onClick={()=>{setListofTasks(3)}}  />
+                    <Tab label="All" onClick={()=>{Visual(0)}} />
+                    <Tab label="Completed" onClick={()=>{Visual(1)}}  />
+                    <Tab label="Active" onClick={()=>{Visual(2)}} />
                 </Tabs>
             </Paper>
-        {tasklist}
         </div>
+        <div>
+            <form className={classes.root}  autoComplete="off">
+                <TextField id="task" label="Add Task" variant="outlined" />
+                <Button onClick={()=>{AddToList()}}>Add</Button>
+            </form>
+        </div>
+        {visual}
     </>
   );
 }

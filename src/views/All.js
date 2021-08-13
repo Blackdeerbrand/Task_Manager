@@ -16,28 +16,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Active(props){
+export default function All(props){
+    let [checkedParent, setcheckedParent] = useState(false)
     let [list, setlist] = useState([])
 
     useEffect(()=>{
+        props.checked(checkedParent)
+    },[checkedParent])
+
+    useEffect(()=>{
         setlist([...list, props.task])
-    },[props.task])
+    },[props.task ])
 
     return(
         <div>
             <List>
                 {
                     list.map((item)=>{
-                        if(props.result === false){
-                            return(
-                                <ListItem>
-                                    <TaskElement check={false} text={item}/>
-                                </ListItem>
-                            )
-                        }
-                        else{
-                            return null
-                        }
+                        return(
+                            <ListItem>
+                                <TaskElement check={false} text={item} checkedTask={setcheckedParent}/>
+                            </ListItem>
+                        )
                     }) 
                 }
             </List>

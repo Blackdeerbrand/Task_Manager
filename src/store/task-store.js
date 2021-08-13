@@ -1,13 +1,14 @@
-import React, { createContext, useState, useReducer } from 'react'
+import React, { createContext, useReducer } from 'react'
 
 const ListTaskContext = createContext();
 
 const ListDispatch = (state, action) =>{ 
 
     switch (action.type) {
-        case "ALL_TASKS":
-            state = 1
-            break;
+        case "CHECKED":
+            let list
+            return state = 0
+            break
         default:
             return state
             break;

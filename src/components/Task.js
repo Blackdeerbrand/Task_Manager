@@ -6,27 +6,21 @@ import { ListTaskContext } from '../store/task-store';
 export default function TaskElement(props){
     const [checked, setChecked] = useState(false);
     let [visual, setvisual] = useState('')
-    const {listResults, listDispatch} = useContext(ListTaskContext)
-
-
-    useEffect(()=>{
-        if(props.text === undefined){
-            document.getElementById('taskgeneral').style.display = "none"
-        }
-    },[])
 
     const handleChange = (event) => {
         setChecked(event.target.checked);
-        if(checked === true){
-            listDispatch({type:"COMPLETED_TASKS", payload:{task:props.text}})
-        }else{
-            listDispatch({type:"ACTIVE_TASKS", payload:{task:props.text}})
+        props.checkedTask(event.target.checked)
+        /* if(checked === true){
+            listDispatch({type:"CHECKED", payload:{data:props.text}})
         }
+        if(checked === false){
+            listDispatch({type:"UNCHECKED", payload:{data:props.text}})
+        } */
     }
 
-    /*Visual */
     useEffect(()=>{
-        if(checked === true){
+        if(props.check === true){
+            setChecked(true)
             setvisual('task-checked')
         }
         else{
@@ -36,7 +30,7 @@ export default function TaskElement(props){
 
     return(
         <>
-            <div id="taskgeneral" className='general-box-task'>
+            <div id="taskgeneral">
                 <Checkbox
                     checked={checked}
                     onChange={handleChange}

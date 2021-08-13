@@ -1,37 +1,46 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
+import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import '../styles/styles.css'
-import Checkbox from '@material-ui/core/Checkbox';
+import TaskElement from '../components/Task';
+import { ListTaskContext } from '../store/task-store';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+      display: 'inline-flex',
+      alignItems: 'center'
+    },
+  },
+}));
 
 export default function Completed(props){
-
-    let [completedList, setCompletedList] = useState([])
+    let [list, setlist] = useState([])
 
     useEffect(()=>{
-        setCompletedList([...completedList, props.task])
-    },[])
-
+        setlist([...list, props.task])
+    },[props.task])
+    
     return(
-        <>
-        <h1>Completed</h1>
-            {
-                completedList.map((item)=>{
-                    return(
-                        <List>
-                            <ListItem>
-                            <div id="taskgeneral" className='general-box-task'>
-                                <Checkbox
-                                    checked={true}
-                                    inputProps={{ 'aria-label': 'primary checkbox' }}
-                                />
-                                <p className='task-checked'>{props.text}</p>
-                            </div>
-                            </ListItem>
-                        </List>
-                    )
-                })
-            }
-        </>
+        <div>
+            <List>
+                {
+                    list.map((item)=>{
+                        if(props.result === true){
+                            return(
+                                <ListItem>
+                                    <TaskElement check={true} text={item}/>
+                                </ListItem>
+                            )
+                        }
+                        else{
+                            return null
+                        }
+                    }) 
+                }
+            </List>
+        </div>
     )
 }
