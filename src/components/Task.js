@@ -1,25 +1,27 @@
 import React, {useState, useEffect, useContext} from 'react'
 import Checkbox from '@material-ui/core/Checkbox';
 import '../styles/styles.css'
-import { ListTaskContext } from '../store/task-store';
+import { ListTaskContext } from '../store/TaskStore';
 
-export default function TaskElement(props){
+export default function Task(props){
     const [checked, setChecked] = useState(false);
+    const [task, settask] = useState()
     let [visual, setvisual] = useState('')
+    let {listResults, listDispatch} = useContext(ListTaskContext)
 
     const handleChange = (event) => {
         setChecked(event.target.checked);
-        props.checkedTask(event.target.checked)
-        /* if(checked === true){
-            listDispatch({type:"CHECKED", payload:{data:props.text}})
+        if(checked === true){
+            listDispatch({type:"CHECKED",payload:{task:props.text, checked:event.target.checked}})
         }
-        if(checked === false){
-            listDispatch({type:"UNCHECKED", payload:{data:props.text}})
-        } */
+        else{
+            listDispatch({type:"UNCHECKED",payload:{task:props.text, checked:event.target.checked}})
+        }
+        props.Ischecked({task:props.text, checked:checked})
     }
 
     useEffect(()=>{
-        if(props.check === true){
+        if(props.visual === true){
             setChecked(true)
             setvisual('task-checked')
         }
@@ -29,8 +31,8 @@ export default function TaskElement(props){
     },[handleChange])
 
     return(
-        <>
-            <div id="taskgeneral">
+        <>           
+            <div id="taskgeneral" className="general-box-task">
                 <Checkbox
                     checked={checked}
                     onChange={handleChange}
