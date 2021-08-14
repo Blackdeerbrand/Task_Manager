@@ -1,138 +1,105 @@
-import React, {useEffect, useState, useMemo, useContext} from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Searchbar from '../components/Searchbar';
-import Task from '../components/Task';
-import { ListTaskContext } from '../store/TaskStore';
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
+import React,{useState, useEffect} from 'react'
+import { Searchbar } from '../components/Searchbar'
+import { TaskList } from '../components/TaskList'
+import '../styles/styles.css'
 
 export default function TaskTabs() {
-  const [value, setValue] = useState(0);
-  let [taskSearch, settaskSearch] = useState()
-  let [taskChecked, settaskChecked] = useState(false)
-  let [actualtask, setactualtask] = useState({
-        task:'',
-        checked: false
-  })
-  let [taskList, settaskList] = useState([])
-  let {listResults, listDispatch} = useContext(ListTaskContext)
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  let [tasklist, settasklist] = useState([])
+  let [taskview, settaskview] = useState([])
+  let [tabview, settabview] = useState('all')
 
+  //Initialize the localstorage of the tasks
   useEffect(()=>{
-    settaskList([...taskList, taskSearch])
-  },[taskSearch])
+    let tasks = localStorage.getItem('tasks')
+    if(tasks != null && typeof tasks != undefined){
+      settasklist(JSON.parse(tasks))
+    }
+    else{
+      settasklist([])
+    }
+  },[])
 
+  //Synchronize all the views
   useEffect(()=>{
-    console.log(listResults)
-  },[value])
+    switch (tabview) {
+      case "all":
+          settaskview(tasklist)
+        break;
+      case "active":
+          settaskview(tasklist.filter((task)=>{return task.done == false}))
+        break;
+      case "completed":
+          settaskview(tasklist.filter((task)=>{return task.done == true}))
+        break;
+      default:
+        break;
+    }
+  },[tasklist, tabview])
+  //Actions of the CRUD
+  const addTask = task => {
+    //Add an ID for every task
+    let nextTaskID = null
+    if(tasklist.length > 0){
+      nextTaskID = tasklist[tasklist.length - 1].id + 1
+    }
+    else{
+      nextTaskID = tasklist.length + 1
+    }
+    //Create object task with an ID, text, done
+    task = {...task, 'id':nextTaskID}
+    settasklist([...tasklist, task])
+    localStorage.setItem('tasks', JSON.stringify([...tasklist, task]));
+  }
+
+  //Delete
+  const deleteTask = (id) => {
+    if(id == 'all'){
+      let newList = tasklist.filter((task)=>{return task.done != true})
+      settasklist(newList)
+      localStorage.setItem('tasks', JSON.stringify(newList));
+    }
+    else{
+      let newList = tasklist.filter((task)=>{return task.id != id})
+      settasklist(newList)
+      localStorage.setItem('tasks', JSON.stringify(newList));
+    }
+  }
+
+  //Update
+  const updateTask = (id, status) => {
+    let newArray = []
+    tasklist.forEach((task)=>{
+      if(task.id == id){
+        task.done = status
+      }
+      newArray.push(task)
+    })
+    settasklist(newArray)
+    localStorage.setItem('tasks', JSON.stringify(newArray));
+  }
+
+  const changeOption = (e) => {
+    document.querySelector('.active').classList.remove('active');
+    e.target.classList.add('active');
+  }
+
+
   return (
-    <div>
-      <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="All" {...a11yProps(0)} />
-          <Tab label="Active" {...a11yProps(1)} />
-          <Tab label="Completed" {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0}>
-        <Searchbar settaskSearch={settaskSearch}/>
-        {
-            taskList.map((item)=>{
-                if(item === '' || item === undefined){
-                    return null
-                }
-                else{
-                    return(
-                        <Task text={item} Ischecked={setactualtask}></Task>
-                    )
-                }
-            })
-        }
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        {
-            taskList.map((item)=>{
-                if(item === '' || item === undefined){
-                    return null
-                }
-                else{
-                    return(
-                        <>  
-                        {
-                            actualtask.checked === false ?
-                            <Task text={item} visual={false}></Task>
-                            :
-                            null
-                        }
-                            {/* <Task text={item}></Task> */}
-                        </>
-                    )
-                }
-            })
-        }
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        {
-            taskList.map((item)=>{
-                if(item === '' || item === undefined){
-                    return null
-                }
-                else{
-                    return(
-                        <>     
-                        {
-                            actualtask.checked === true ?
-                            <Task text={item} visual={true}></Task>
-                            :
-                            null
-                        }      
-                            {/* <Task text={item}></Task> */}
-                        </>
-                    )
-                }
-            })
-        }
-      </TabPanel>
-    </div>
+    <>
+      <h1>Task Manager</h1>
+      <div id="options">
+        <div onClick={(e)=>{settabview('all'), changeOption(e)}} className="active" >All</div>
+        <div onClick={(e)=>{settabview('active'), changeOption(e)}}>Active</div>
+        <div onClick={(e)=>{settabview('completed'), changeOption(e)}}>Complete</div>
+      </div>
+      <Searchbar saveTask={(task)=>{addTask(task)}} />
+      <TaskList
+        deleteTask={deleteTask}
+        updateTask={updateTask}
+        tabview={tabview}
+        taskview={taskview}
+      />
+    </>
   );
 }

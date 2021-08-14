@@ -1,34 +1,41 @@
 import React, {useState} from 'react'
-import TextField from '@material-ui/core/TextField';
-import { Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-        width: '25ch',
-        display: 'inline-flex',
-        alignItems: 'center'
-      },
-    },
-  }));
+export const Searchbar = ({saveTask}) =>{
 
-
-export default function Searchbar(props){
-
-    const classes = useStyles();
-
-    const AddToList = () => {
-        let taskElement = document.getElementById('task').value
-        props.settaskSearch(taskElement)
+  //Keep input data on the input
+  const savedata = (e) => {
+    let text = e.target.value
+    if(e.keyCode == 13 || text != ""){
+      saveTask({
+        'text':text,
+        'done':false
+      })
     }
-    return(
-        <div>
-            <form className={classes.root}  autoComplete="off">
-                <TextField id="task" label="Add Task" variant="outlined" />
-                <Button onClick={()=>{AddToList()}}>Add</Button>
-            </form>
-        </div>
-    )
+    e.target.value = "";
+  }
+  //Send data through the button
+
+  const savedatafromButton = () =>{
+    let text = document.querySelector('.taskcreator').value
+    if(text != ""){
+      saveTask({
+        'text':text,
+        'done':false
+      })
+      document.querySelector('.taskcreator').value = "";
+    }
+  }
+  return(
+    <>
+      <div  id="todo-input">
+        <input 
+         type="text" 
+         className="form-control todo-box taskcreator" 
+         placeholder="Escribe una tarea..."
+    
+        />
+        <button onClick={savedatafromButton}>Add Task</button>
+      </div>
+    </>
+  )
 }
