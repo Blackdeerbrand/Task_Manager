@@ -22,8 +22,8 @@ export const TaskList = ({deleteTask, updateTask, tabview, taskview}) => {
                     taskview.map((task)=>{
                         return(
                             <>
-                                <div className="todo-checkbox" key={task.id}>
-                                    <div>
+                                <div className="task-checkbox" key={task.id}>
+                                    <div style={{display:'inline-flex', alignItems:"center"}}>
                                         <input type="checkbox"
                                         className="check form-control"
                                         name={"check" + task.id} 

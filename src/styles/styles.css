@@ -70,7 +70,7 @@ code {
     background-color: rgb(55, 123, 226);
 }
 
-.todo-checkbox{
+.task-checkbox{
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -78,30 +78,30 @@ code {
     margin: 10px 0;
 }
 
-.todo-checkbox .delete-one{
+.task-checkbox .delete-one{
     cursor: pointer;
 }
 
-.todo-checkbox .todo-content{
-    display: flex;
+.task-checkbox .todo-content{
+    display: inline-flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-start;
 }
 
-.todo-checkbox .check{
+.task-checkbox .check{
     vertical-align: middle;
     width: 20px;
     height: 20px;
     margin-top: 5px;
 }
 
-.todo-checkbox p{
+.task-checkbox p{
     margin: 0 5px;
     font-size: 20px;
 }
 
-.todo-checkbox .check:checked + p{
+.task-checkbox .check:checked + p{
     text-decoration: line-through;
 }
 
