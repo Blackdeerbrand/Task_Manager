@@ -33,7 +33,7 @@ export const TaskList = ({deleteTask, updateTask, tabview, taskview}) => {
                                         <p>{task.text}</p>
                                     </div>
                                     
-                                    {task.done == true && tabview == 'completed' && 
+                                    {task.done === true && tabview === 'completed' && 
                                         <DeleteIcon onClick={() => deleteTask(task.id)}/>
                                     }
                                 </div>

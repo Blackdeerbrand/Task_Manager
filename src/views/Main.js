@@ -27,10 +27,10 @@ export default function TaskTabs() {
           settaskview(tasklist)
         break;
       case "active":
-          settaskview(tasklist.filter((task)=>{return task.done == false}))
+          settaskview(tasklist.filter((task)=>{return task.done === false}))
         break;
       case "completed":
-          settaskview(tasklist.filter((task)=>{return task.done == true}))
+          settaskview(tasklist.filter((task)=>{return task.done === true}))
         break;
       default:
         break;
@@ -55,12 +55,12 @@ export default function TaskTabs() {
   //Delete
   const deleteTask = (id) => {
     if(id === 'all'){
-      let newList = tasklist.filter((task)=>{return task.done != true})
+      let newList = tasklist.filter((task)=>{return task.done !== true})
       settasklist(newList)
       localStorage.setItem('tasks', JSON.stringify(newList));
     }
     else{
-      let newList = tasklist.filter((task)=>{return task.id != id})
+      let newList = tasklist.filter((task)=>{return task.id !== id})
       settasklist(newList)
       localStorage.setItem('tasks', JSON.stringify(newList));
     }
