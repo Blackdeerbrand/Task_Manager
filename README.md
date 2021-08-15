@@ -1,9 +1,12 @@
-![screenshot](https://user-images.githubusercontent.com/16707738/92399059-5716eb00-f132-11ea-8b14-bcacdc8ec97b.png)
+![screenshot](https://drive.google.com/file/d/1AKzoy1vf5s_c1xmsw-a_wTfehq5JYB4u/view?usp=sharing)
 
 #Task Manager Front-end
 
+You can see the demo here: https://task-manager-react-a1xx50vf9-blackdeerbrand.vercel.app/ 
+
 Introduce your projects by taking a screenshot or a gif. Try to tell visitors a story about your project by answering:
 
+This app can help you to set tasks, list which ones are active and which ones are complete
 You can see the demo here, 
 
 This app it's a good practice for people that are beginning in React
@@ -12,9 +15,8 @@ I need more practice and more projects :D
 
 ### Built With
 
-<!-- This section should list any major frameworks that you built your project using. Here are a few examples.-->
-
 - [React](https://reactjs.org/)
+- [Git](https://git-scm.com)
 
 ## Features
 
