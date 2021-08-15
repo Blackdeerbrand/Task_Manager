@@ -10,7 +10,7 @@ export const TaskList = ({deleteTask, updateTask, tabview, taskview}) => {
     }
 
     //Verify the possible results for the props 
-    if(taskview == null){
+    if(taskview === null){
         taskview = [];
     }
 
@@ -18,7 +18,7 @@ export const TaskList = ({deleteTask, updateTask, tabview, taskview}) => {
         <>
             <div>
                 {
-                    taskview != null &&
+                    taskview !== null &&
                     taskview.map((task)=>{
                         return(
                             <>
@@ -41,7 +41,7 @@ export const TaskList = ({deleteTask, updateTask, tabview, taskview}) => {
                         )
                     })
                 }
-                {taskview > 0 && tabview == 'completed' && 
+                {taskview > 0 && tabview === 'completed' && 
                     <button>
                         <DeleteForeverIcon onClick={() => deleteTask('all')}/>
                     </button>

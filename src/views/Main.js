@@ -12,7 +12,7 @@ export default function TaskTabs() {
   //Initialize the localstorage of the tasks
   useEffect(()=>{
     let tasks = localStorage.getItem('tasks')
-    if(tasks != null && typeof tasks != undefined){
+    if(tasks !== null && typeof tasks !== undefined){
       settasklist(JSON.parse(tasks))
     }
     else{
@@ -54,7 +54,7 @@ export default function TaskTabs() {
 
   //Delete
   const deleteTask = (id) => {
-    if(id == 'all'){
+    if(id === 'all'){
       let newList = tasklist.filter((task)=>{return task.done != true})
       settasklist(newList)
       localStorage.setItem('tasks', JSON.stringify(newList));
@@ -70,7 +70,7 @@ export default function TaskTabs() {
   const updateTask = (id, status) => {
     let newArray = []
     tasklist.forEach((task)=>{
-      if(task.id == id){
+      if(task.id === id){
         task.done = status
       }
       newArray.push(task)

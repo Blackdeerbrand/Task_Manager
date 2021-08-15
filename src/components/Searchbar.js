@@ -1,23 +1,13 @@
-import React, {useState} from 'react'
+import React from 'react'
 
 export const Searchbar = ({saveTask}) =>{
 
-  //Keep input data on the input
-  const savedata = (e) => {
-    let text = e.target.value
-    if(e.keyCode == 13 || text != ""){
-      saveTask({
-        'text':text,
-        'done':false
-      })
-    }
-    e.target.value = "";
-  }
+  
   //Send data through the button
 
   const savedatafromButton = () =>{
     let text = document.querySelector('.taskcreator').value
-    if(text != ""){
+    if(text !== ""){
       saveTask({
         'text':text,
         'done':false

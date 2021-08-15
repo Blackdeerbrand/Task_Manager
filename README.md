@@ -4,7 +4,7 @@
 
 Introduce your projects by taking a screenshot or a gif. Try to tell visitors a story about your project by answering:
 
-You can see the demo here
+You can see the demo here, 
 
 This app it's a good practice for people that are beginning in React
 
