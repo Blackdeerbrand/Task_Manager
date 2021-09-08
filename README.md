@@ -17,6 +17,7 @@ I need more practice and more projects :D
 
 - [React](https://reactjs.org/)
 - [Git](https://git-scm.com)
+- [Material Icons](https://material-ui.com/es/components/material-icons/)
 
 ## Features
 
