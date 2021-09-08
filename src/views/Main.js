@@ -52,7 +52,7 @@ export default function TaskTabs() {
     localStorage.setItem('tasks', JSON.stringify([...tasklist, task]));
   }
 
-  //Delete
+  //Delete Task
   const deleteTask = (id) => {
     if(id === 'all'){
       let newList = tasklist.filter((task)=>{return task.done !== true})
@@ -66,7 +66,7 @@ export default function TaskTabs() {
     }
   }
 
-  //Update
+  //Update Task
   const updateTask = (id, status) => {
     let newArray = []
     tasklist.forEach((task)=>{
@@ -87,20 +87,20 @@ export default function TaskTabs() {
 
   return (
     <>
-      <h1>Task Manager</h1>
+      <h1>Manejo de Tareas</h1>
       <div id="options">
         <div onClick={(e)=>{
           settabview('all') 
           changeOption(e)
-        }} className="active" >All</div>
+        }} className="active" >Todos</div>
         <div onClick={(e)=>{
           settabview('active')
           changeOption(e)
-        }}>Active</div>
+        }}>Activas</div>
         <div onClick={(e)=>{
           settabview('completed') 
           changeOption(e)
-        }}>Complete</div>
+        }}>Completadas</div>
       </div>
       <Searchbar saveTask={(task)=>{addTask(task)}} />
       <TaskList

@@ -4,7 +4,6 @@ export const Searchbar = ({saveTask}) =>{
 
   
   //Send data through the button
-
   const savedatafromButton = () =>{
     let text = document.querySelector('.taskcreator').value
     if(text !== ""){
@@ -24,7 +23,7 @@ export const Searchbar = ({saveTask}) =>{
          placeholder="Escribe una tarea..."
     
         />
-        <button onClick={savedatafromButton}>Add Task</button>
+        <button onClick={savedatafromButton}>Añadir</button>
       </div>
     </>
   )
